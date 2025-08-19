@@ -1,4 +1,5 @@
 # Import python packages
+import requests
 import streamlit as st
 from snowflake.snowpark.functions import col
 
@@ -16,6 +17,11 @@ fruits_df = session.table("smoothies.public.fruit_options").select(col("FRUIT_NA
 ingredients_list = st.multiselect(
     "Choose up to 5 ingredients:", fruits_df, max_selections=5
 )
+
+smoothiefroot_response = requests.get(
+    "https://my.smoothiefroot.com/api/fruit/watermelon"
+)
+st.text(smoothiefroot_response.json())
 
 if ingredients_list and name_on_order:
     ingredients_string = ""
